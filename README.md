@@ -1,4 +1,4 @@
-Las variables de entorno necesarais para el correcto fuuncionamiento de la aplicación son:
+Las variables de entorno necesarias para el correcto fuuncionamiento de la aplicación son:
 
 ```properties
 #Puerto del Servidor Node
