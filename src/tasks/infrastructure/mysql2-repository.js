@@ -1,14 +1,6 @@
-import mysql from "mysql2/promise"
+import mysqlPool from "../../mysql2-pool.js"
 
-const { DB_HOST, DB_USER, DB_SCHEMA, DB_PASSWORD } = process.env
-const mysqlPool = mysql.createPool({
-    host: DB_HOST,
-    user: DB_USER,
-    database: DB_SCHEMA,
-    password: DB_PASSWORD,
-})
-
-export class TaskRepository {
+export default class TaskRepository {
     async findById(taskId) {
         try {
             const [result] = (
@@ -28,7 +20,7 @@ export class TaskRepository {
     async findAll() {
         try {
             const [results] = await mysqlPool.query(
-                `SELECT t.*, u.nombre, u.apellidos, u.edad, u.email, u.status, u.fecha_registro 
+                `SELECT t.*, u.nombre, u.apellidos, u.edad, u.email, u.status, u.fecha_registro
                  FROM tareas t JOIN usuarios u ON t.usuario_id = u.id`
             )
             return results.map(TaskRepository.#mapDBtoDomain)
@@ -65,7 +57,6 @@ export class TaskRepository {
         try {
             await mysqlPool.query("DELETE FROM tareas WHERE id=?", [taskId])
         } catch (error) {
-            console.log(error.sqlMessage)
             throw new Error("Error in MySQL conecction", { cause: error })
         }
     }
@@ -134,8 +125,6 @@ export class TaskRepository {
     }
 
     // ---> Añadir Middleware
-
-    // vvvv Añadir el Archivo Mappper vvvv
 
     static #mapDBtoDomain(dbData) {
         return {

@@ -1,3 +1,3 @@
-import runServer from "./src/run-server.js"
+import runExpressServer from "./src/run-express-server.js"
 
-runServer(process.env.PORT ?? 3030)
+runExpressServer(process.env.PORT ?? 3030)

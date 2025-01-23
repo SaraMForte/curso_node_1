@@ -1,8 +1,8 @@
 import express from "express"
 import { errorHandler, notFoundHandler } from "./handlers.js"
-import routes from "./routes.js"
+import routes from "./express-routes.js"
 
-export default function runServer(port) {
+export default function runExpressServer(port) {
     const server = express()
 
     server.use(express.json())

@@ -1,5 +1,5 @@
 import TaskService from "../application/service.js"
-import { TaskRepository } from "./repository.js"
+import TaskRepository from "./mysql2-repository.js"
 
 const taskService = new TaskService(new TaskRepository())
 
@@ -46,7 +46,7 @@ export async function findUserById(req, res) {
     return res.json(await taskService.findUserById(req.params.userId))
 }
 
-export async function findUserByTaskId(req,res) {
+export async function findUserByTaskId(req, res) {
     return res.json(await taskService.findUserByTaskId(req.params.id))
 }
 
