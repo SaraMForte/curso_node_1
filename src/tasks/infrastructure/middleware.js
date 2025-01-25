@@ -1,5 +1,6 @@
-import dayjs from 'dayjs'
-import fs from 'node:fs/promises'
+
+import dayjs from "dayjs"
+import fs from "node:fs/promises"
 
 export function textMiddleware(req, res, next) {
     console.log("Se ha ejecutado el middleware de JS")
@@ -7,20 +8,24 @@ export function textMiddleware(req, res, next) {
 }
 
 export async function logMiddleware(req, res, next) {
-    const currentDate = dayjs().format('DD-MM-YYYY HH:mm:ss')
+    const currentDate = dayjs().format("DD-MM-YYYY HH:mm:ss")
     const text = `[ ${currentDate} ] - Method: ${req.method} - Url: ${req.url}\n`
 
-    await fs.appendFile('./log', text)
+    await fs.appendFile("./log", text)
     next()
 }
 
 export async function blockMiddleware(req, res, next) {
-    const random = Math.random();
+    const random = Math.random()
     console.log(random)
 
-    if( random >= 0.8) {
-        return res.status(401).send('You cant access')
+    if (random >= 0.8) {
+        return res.status(401).send("You cant access")
     }
-    next()
+    return next()
 }
 
+export async function loginMiddleware(req, res, next) {
+    req.loggedUser = service.decode(req.headers.token)
+    next()
+}

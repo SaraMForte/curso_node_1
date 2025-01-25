@@ -1,10 +1,15 @@
+// eslint-disable-next-line no-unused-vars
+import User from "../domain/user.js"
+
 export default class UsersService {
     #repository
     #encryption
+    #authorizer
 
-    constructor(repository, encryption) {
+    constructor(repository, encryption, tokenizer) {
         this.#repository = repository
         this.#encryption = encryption
+        this.#authorizer = tokenizer
     }
 
     /**
@@ -34,18 +39,37 @@ export default class UsersService {
     /**
      *
      * @param {{email, password}}
-     * @returns {true}
+     * @returns {string}
      * @throws {Error}
      */
     async login({ email, password }) {
         try {
-            const passwordEncrypted = await this.#repository.login(email)
-            if (await this.#encryption.compare(password, passwordEncrypted)) {
-                return true
+            const user = await this.#repository.findUserByEmail(email)
+
+            if (await this.#encryption.compare(password, user.password)) {
+                return this.#authorizer.generateToken(user.toLogged())
             }
             throw new Error("Incorrect password")
         } catch (error) {
             throw new Error(error.message, { cause: error.cause })
+        }
+    }
+
+    /**
+     * 
+     * @param {User} user
+     */
+    async update(user) {
+        try {
+            const newUser = new User({ ...user })
+            if (user.password) {
+                const newPasswordEncrypted = await this.#encryption.encrypt(user.password)
+                newUser.password = newPasswordEncrypted
+            }
+
+            await this.#repository.update(newUser)
+        } catch (error) {
+            throw new Error("User couldnt be updated", { cause: error })
         }
     }
 
@@ -60,7 +84,10 @@ export default class UsersService {
      *      password : string,
      *      rol: string }>}
      */
-    async getAll() {
-        return await this.#repository.getAll()
+    async getAll(loggedUser) {
+        if (loggedUser.rol === "Admin") {
+            return await this.#repository.getAll()
+        }
+        throw new Error("You arent a Admin")
     }
 }
