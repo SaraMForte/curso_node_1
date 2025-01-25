@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 import User from "../domain/user.js"
 
 export default class UsersService {

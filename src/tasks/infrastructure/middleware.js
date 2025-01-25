@@ -24,8 +24,3 @@ export async function blockMiddleware(req, res, next) {
     }
     return next()
 }
-
-export async function loginMiddleware(req, res, next) {
-    req.loggedUser = service.decode(req.headers.token)
-    next()
-}
