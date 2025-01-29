@@ -1,19 +1,19 @@
 {
     "name": "express-sara-template",
-    "version": "2.0.1",
+    "version": "2.1.0",
     "main": "index.js",
     "type": "module",
     "scripts": {
         "dev": "clear && node --env-file=.env --watch index.js "
     },
     "keywords": [],
-    "author": "",
+    "author": "SaraMForte",
     "license": "ISC",
     "description": "",
     "dependencies": {
         "bcryptjs": "^2.4.3",
         "dayjs": "^1.11.13",
-        "express": "^4.21.2",
+        "express": "^5.0.1",
         "jsonwebtoken": "^9.0.2",
         "mongoose": "^8.9.5",
         "mysql2": "^3.12.0"
