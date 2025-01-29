@@ -55,7 +55,7 @@ export default class UsersService {
     }
 
     /**
-     * 
+     *
      * @param {User} user
      */
     async update(user) {

@@ -8,7 +8,7 @@ export default class JwtTokenizer {
                 rol: loggedUser.rol,
             },
             process.env.JWT_SECRET_KEY,
-            {expiresIn: process.env.JWT_EXPIRATION_TIME}
+            { expiresIn: process.env.JWT_EXPIRATION_TIME }
         )
     }
 

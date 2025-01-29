@@ -14,7 +14,7 @@ export async function verifyToken(req, res, next) {
         req.loggedUser = loggedUser
 
         next()
-    } catch (error) {
-        res.json({ message: error.message, error: error.cause })
+    } catch (cause) {
+        throw new Error("Something went wrong in verification token", { cause })
     }
 }

@@ -24,10 +24,6 @@ export function addProduct(req, res) {
 export function deleteProduct(req, res) {
     const productName = req.params.name
 
-    try {
-        productsService.deleteProductByName(productName)
-        res.status(200).json({ message: `Product ${productName} deleted of data` })
-    } catch (error) {
-        res.status(404).json({ message: error.message })
-    }
+    productsService.deleteProductByName(productName)
+    res.status(200).json({ message: `Product ${productName} deleted of data` })
 }
